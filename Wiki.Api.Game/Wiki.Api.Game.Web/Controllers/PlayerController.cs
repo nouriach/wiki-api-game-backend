@@ -4,26 +4,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Wiki.Api.Game.Application.Contracts;
+using Wiki.Api.Game.Application.Interfaces;
+using Wiki.Api.Game.Application.Services;
 using Wiki.Api.Game.Domain.Models;
 
 namespace Wiki.Api.Game.Web.Controllers
 {
     public class PlayerController : Controller
     {
-        List<Player> _players;
+        IPlayerService _playerService;
 
         public PlayerController()
         {
-            _players = new List<Player>();
-            for (int i = 0; i < 5; i++)
-            {
-                _players.Add(new Player { FullName = Guid.NewGuid().ToString() });
-            }
+            _playerService = new PlayerService();
         }
         [HttpGet(ApiRoutes.Players.Get)]
         public IActionResult Get(Guid playerId)
         {
-            var result = _players.Where(x => x.FullName.Contains(playerId.ToString())).SingleOrDefault();
+            var result = _playerService.GetPlayerByIdAsync(playerId);
             if (result == null)
                 return NotFound();
 
@@ -33,7 +31,8 @@ namespace Wiki.Api.Game.Web.Controllers
         [HttpGet(ApiRoutes.Players.GetAll)]
         public IActionResult GetAll()
         {
-            return Ok(_players);
+            var result = _playerService.GetPlayersAsync();
+            return Ok(result);
         }
     }
 }

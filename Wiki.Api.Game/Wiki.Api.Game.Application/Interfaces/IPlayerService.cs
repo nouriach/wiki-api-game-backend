@@ -6,10 +6,10 @@ using Wiki.Api.Game.Domain.Models;
 
 namespace Wiki.Api.Game.Application.Interfaces
 {
-    interface IPlayerService
+    public interface IPlayerService
     {
-        Task<Player> GetPlayerByIdAsync(int playerId);
-        Task<List<Player>> GetPlayersAsync();
+        Player GetPlayerByIdAsync(Guid playerId);
+        List<Player> GetPlayersAsync();
 
     }
 }

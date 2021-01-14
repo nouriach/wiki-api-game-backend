@@ -9,14 +9,26 @@ namespace Wiki.Api.Game.Application.Services
 {
     public class PlayerService : IPlayerService
     {
-        public Task<Player> GetPlayerByIdAsync(int playerId)
+        private readonly List<Player> _players;
+
+        public PlayerService()
         {
-            throw new NotImplementedException();
+            _players = new List<Player>();
+            for (int i = 0; i < 5; i++)
+            {
+                _players.Add(new Player { FullName = Guid.NewGuid().ToString() });
+            }
         }
 
-        public Task<List<Player>> GetPlayersAsync()
+        public Player GetPlayerByIdAsync(Guid playerId)
         {
-            throw new NotImplementedException();
+            var result = _players.Find(p => p.FullName == playerId.ToString());
+            return result;
+        }
+
+        public List<Player> GetPlayersAsync()
+        {
+            return _players;
         }
     }
 }
