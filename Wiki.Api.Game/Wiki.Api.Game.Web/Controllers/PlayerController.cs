@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Wiki.Api.Game.Application.Contracts;
 using Wiki.Api.Game.Domain.Models;
 
 namespace Wiki.Api.Game.Web.Controllers
@@ -19,13 +20,14 @@ namespace Wiki.Api.Game.Web.Controllers
                 _players.Add(new Player { FullName = Guid.NewGuid().ToString() });
             }
         }
-        [HttpGet("api/v1/players/{playerId}")]
-        public IActionResult Get()
+        [HttpGet(ApiRoutes.Players.Get)]
+        public IActionResult Get(Guid playerId)
         {
-            return Ok();
+            var result = _players.Where(x => x.FullName.Contains(playerId.ToString())).SingleOrDefault();
+            return Ok(result);
         }
 
-        [HttpGet("api/v1/players")]
+        [HttpGet(ApiRoutes.Players.GetAll)]
         public IActionResult GetAll()
         {
             return Ok(_players);
