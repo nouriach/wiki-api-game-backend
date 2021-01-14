@@ -16,6 +16,8 @@ using Wiki.Api.Game.Application.Interfaces;
 
 using Wiki.Api.Game.Infrastructure.Options;
 using Wiki.Api.Game.Web.Data;
+using MediatR;
+using Wiki.Api.Game.Application.Services.Players.Queries;
 
 namespace Wiki.Api.Game.Web
 {
@@ -49,6 +51,8 @@ namespace Wiki.Api.Game.Web
                             Version = "v1"
                         });
             });
+            services.AddMediatR(typeof(GetAllPlayersQuery).Assembly);
+            services.AddMediatR(typeof(GetPlayerQuery).Assembly);
 
 
         }
