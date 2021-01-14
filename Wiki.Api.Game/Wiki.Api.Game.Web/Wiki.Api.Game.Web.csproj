@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Wiki.Api.Game.Application\Wiki.Api.Game.Application.csproj" />
     <ProjectReference Include="..\Wiki.Api.Game.Infrastructure\Wiki.Api.Game.Infrastructure.csproj" />
   </ItemGroup>
 

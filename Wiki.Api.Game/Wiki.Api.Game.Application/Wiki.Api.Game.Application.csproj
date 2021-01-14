@@ -4,4 +4,9 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Wiki.Api.Game.Domain\Wiki.Api.Game.Domain.csproj" />
+    <ProjectReference Include="..\Wiki.App.Game.Persistence\Wiki.Api.Game.Persistence.csproj" />
+  </ItemGroup>
+
 </Project>
