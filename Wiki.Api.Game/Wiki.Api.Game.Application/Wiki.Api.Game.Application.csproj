@@ -11,7 +11,6 @@
 
   <ItemGroup>
     <Folder Include="Services\Players\Handlers\" />
-    <Folder Include="Services\Players\Queries\" />
   </ItemGroup>
 
   <ItemGroup>
