@@ -8,8 +8,12 @@ namespace Wiki.Api.Game.Web.Controllers
 {
     public class PlayerController : Controller
     {
-        [HttpGet("api/v1/players/{playerId}")]
+        
+        public PlayerController()
+        {
 
+        }
+        [HttpGet("api/v1/players/{playerId}")]
         public IActionResult Get()
         {
             return Ok();
