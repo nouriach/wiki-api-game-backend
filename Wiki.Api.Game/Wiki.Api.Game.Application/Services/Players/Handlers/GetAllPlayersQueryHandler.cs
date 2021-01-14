@@ -9,9 +9,9 @@ using Wiki.Api.Game.Domain.Models;
 
 namespace Wiki.Api.Game.Application.Services.Players.Handlers
 {
-    public class GetAllPlayersQueryHandler : IRequestHandler<GetAllPlayersQuery, Player>
+    public class GetAllPlayersQueryHandler : IRequestHandler<GetAllPlayersQuery, IEnumerable<Player>>
     {
-        public Task<Player> Handle(GetAllPlayersQuery request, CancellationToken cancellationToken)
+        public Task<IEnumerable<Player>> Handle(GetAllPlayersQuery request, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }
