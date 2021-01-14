@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Wiki.Api.Game.Infrastructure.Options;
 using Wiki.Api.Game.Web.Data;
 
 namespace Wiki.Api.Game.Web
@@ -34,6 +35,16 @@ namespace Wiki.Api.Game.Web
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
+
+            services.AddSwaggerGen(x =>
+            {
+                x.SwaggerDoc("v1",
+                        new Microsoft.OpenApi.Models.OpenApiInfo
+                        {
+                            Title = "Wiki Game API",
+                            Version = "v1"
+                        });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,6 +63,17 @@ namespace Wiki.Api.Game.Web
 
             app.UseRouting();
             app.UseAuthorization();
+
+
+            var swaggerOptions = new SwaggerOptions();
+            Configuration.GetSection(nameof(SwaggerOptions)).Bind(swaggerOptions);
+
+            app.UseSwagger(option =>
+            {
+                option.RouteTemplate = swaggerOptions.JsonRoute;
+            });
+
+            app.UseSwaggerUI(option => option.SwaggerEndpoint(swaggerOptions.UiEndpoint, swaggerOptions.Description));
 
             app.UseEndpoints(endpoints =>
             {
