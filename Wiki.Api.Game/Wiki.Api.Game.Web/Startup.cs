@@ -15,9 +15,9 @@ using Wiki.Api.Game.Application.Services;
 using Wiki.Api.Game.Application.Interfaces;
 
 using Wiki.Api.Game.Infrastructure.Options;
-using Wiki.Api.Game.Web.Data;
 using MediatR;
 using Wiki.Api.Game.Application.Services.Players.Queries;
+using Wiki.Api.Game.Persistence.Data;
 
 namespace Wiki.Api.Game.Web
 {
@@ -35,7 +35,8 @@ namespace Wiki.Api.Game.Web
         {
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+                    Configuration.GetConnectionString("DefaultConnection"), 
+                    optionsBuilder => optionsBuilder.MigrationsAssembly("Wiki.Api.Game.Persistence")));
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddScoped<IPlayerService, PlayerService>();
