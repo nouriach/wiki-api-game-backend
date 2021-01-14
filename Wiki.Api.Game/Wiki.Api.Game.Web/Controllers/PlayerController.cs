@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,22 +7,25 @@ using System.Threading.Tasks;
 using Wiki.Api.Game.Application.Contracts;
 using Wiki.Api.Game.Application.Interfaces;
 using Wiki.Api.Game.Application.Services;
+using Wiki.Api.Game.Application.Services.Players.Queries;
 using Wiki.Api.Game.Domain.Models;
 
 namespace Wiki.Api.Game.Web.Controllers
 {
     public class PlayerController : Controller
     {
-        IPlayerService _playerService;
+        IMediator _mediator;
 
-        public PlayerController()
+        public PlayerController(IMediator mediator)
         {
-            _playerService = new PlayerService();
+            _mediator = mediator;
         }
         [HttpGet(ApiRoutes.Players.Get)]
-        public IActionResult Get(Guid playerId)
+        public async Task <IActionResult> Get(int playerId)
         {
-            var result = _playerService.GetPlayerByIdAsync(playerId);
+
+            var result = await _mediator.Send(new GetPlayerQuery { Id = playerId });
+
             if (result == null)
                 return NotFound();
 
@@ -29,9 +33,13 @@ namespace Wiki.Api.Game.Web.Controllers
         }
 
         [HttpGet(ApiRoutes.Players.GetAll)]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll(GetAllPlayersQuery query)
         {
-            var result = _playerService.GetPlayersAsync();
+            var result = await _mediator.Send(query);
+
+            if (result == null)
+                return NotFound();
+
             return Ok(result);
         }
     }

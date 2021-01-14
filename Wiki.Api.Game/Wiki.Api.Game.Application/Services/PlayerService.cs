@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Wiki.Api.Game.Application.Interfaces;
@@ -11,24 +12,25 @@ namespace Wiki.Api.Game.Application.Services
     {
         private readonly List<Player> _players;
 
+
         public PlayerService()
         {
-            _players = new List<Player>();
             for (int i = 0; i < 5; i++)
             {
                 _players.Add(new Player { FullName = Guid.NewGuid().ToString() });
             }
         }
 
-        public Player GetPlayerByIdAsync(Guid playerId)
+        public async Task<Player> GetPlayerByIdAsync(int playerId)
         {
-            var result = _players.Find(p => p.FullName == playerId.ToString());
+            var result = await _players.Where(x => x.Id == playerId).FirstOrDefault();
             return result;
         }
 
-        public List<Player> GetPlayersAsync()
+        public async Task< List<Player>> GetPlayersAsync()
         {
-            return _players;
+            var result = await _players;
+            return result;
         }
     }
 }

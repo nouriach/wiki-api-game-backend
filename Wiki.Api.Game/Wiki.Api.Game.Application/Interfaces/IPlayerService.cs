@@ -8,8 +8,8 @@ namespace Wiki.Api.Game.Application.Interfaces
 {
     public interface IPlayerService
     {
-        Player GetPlayerByIdAsync(Guid playerId);
-        List<Player> GetPlayersAsync();
+        Task<Player> GetPlayerByIdAsync(int playerId);
+        Task<List<Player>> GetPlayersAsync();
 
     }
 }
