@@ -11,6 +11,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Wiki.Api.Game.Application.Services;
+using Wiki.Api.Game.Application.Interfaces;
+
 using Wiki.Api.Game.Infrastructure.Options;
 using Wiki.Api.Game.Web.Data;
 
@@ -33,6 +36,7 @@ namespace Wiki.Api.Game.Web
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddScoped<IPlayerService, PlayerService>();
             services.AddControllersWithViews();
             services.AddRazorPages();
 
@@ -45,6 +49,8 @@ namespace Wiki.Api.Game.Web
                             Version = "v1"
                         });
             });
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
