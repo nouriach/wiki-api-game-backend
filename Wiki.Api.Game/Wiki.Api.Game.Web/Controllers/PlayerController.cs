@@ -24,6 +24,9 @@ namespace Wiki.Api.Game.Web.Controllers
         public IActionResult Get(Guid playerId)
         {
             var result = _players.Where(x => x.FullName.Contains(playerId.ToString())).SingleOrDefault();
+            if (result == null)
+                return NotFound();
+
             return Ok(result);
         }
 
