@@ -10,6 +10,7 @@ namespace Wiki.Api.Game.Application.Interfaces
     {
         Task<Player> GetPlayerByIdAsync(int playerId);
         Task<List<Player>> GetPlayersAsync();
+        Task<bool> DeletePlayerAsync(int playerId);
 
     }
 }

@@ -1,36 +1,47 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Wiki.Api.Game.Application.Interfaces;
 using Wiki.Api.Game.Domain.Models;
+using Wiki.Api.Game.Persistence.Data;
 
 namespace Wiki.Api.Game.Application.Services
 {
     public class PlayerService : IPlayerService
     {
-        private readonly List<Player> _players;
+        private readonly ApplicationDbContext _context;
 
-
-        public PlayerService()
+        public PlayerService(ApplicationDbContext context)
         {
-            for (int i = 0; i < 5; i++)
-            {
-                _players.Add(new Player { FullName = Guid.NewGuid().ToString() });
-            }
+            _context = context;
+        }
+
+        public async Task<bool> DeletePlayerAsync(int playerId)
+        {
+            var playerToDelete = await GetPlayerByIdAsync(playerId);
+            if (playerToDelete == null)
+                return false;
+
+            _context.Players.Remove(playerToDelete);
+            _context.SaveChanges();
+
+            return true;
         }
 
         public async Task<Player> GetPlayerByIdAsync(int playerId)
         {
-            var result = await _players.Where(x => x.Id == playerId).FirstOrDefault();
-            return result;
+            var player = await _context.Players.Where(p => p.Id == playerId).SingleOrDefaultAsync();
+            return player;
+            
         }
 
-        public async Task< List<Player>> GetPlayersAsync()
+        public async Task <List<Player>> GetPlayersAsync()
         {
-            var result = await _players;
-            return result;
+            
+            return await _context.Players.ToListAsync();
         }
     }
 }

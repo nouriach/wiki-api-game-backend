@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Wiki.Api.Game.Application.Contracts;
-
+using Wiki.Api.Game.Application.Services.Players.Commands.CommandQueries;
 using Wiki.Api.Game.Application.Services.Players.Queries;
 
 namespace Wiki.Api.Game.Web.Controllers
@@ -42,10 +42,14 @@ namespace Wiki.Api.Game.Web.Controllers
         }
         [HttpDelete(ApiRoutes.Players.Delete)]
 
-        public async Task<IActionResult> Delete(int playerId)
+        public async Task<IActionResult> Delete([FromRoute] int playerId)
         {
-            var result = await _mediator.Send(playerId);
-            return NotFound();
+            var result = await _mediator.Send( new DeletePlayerCommand { Id = playerId });
+
+            if (result)
+                return Content($"Player with Id {playerId} has been deleted");
+            else
+                return NotFound();
         }
     }
 }
