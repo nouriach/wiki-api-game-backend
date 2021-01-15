@@ -5,10 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Wiki.Api.Game.Application.Contracts;
-using Wiki.Api.Game.Application.Interfaces;
-using Wiki.Api.Game.Application.Services;
+
 using Wiki.Api.Game.Application.Services.Players.Queries;
-using Wiki.Api.Game.Domain.Models;
 
 namespace Wiki.Api.Game.Web.Controllers
 {
@@ -41,6 +39,13 @@ namespace Wiki.Api.Game.Web.Controllers
                 return NotFound();
 
             return Ok(result);
+        }
+        [HttpDelete(ApiRoutes.Players.Delete)]
+
+        public async Task<IActionResult> Delete(int playerId)
+        {
+            var result = await _mediator.Send(playerId);
+            return NotFound();
         }
     }
 }
